@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk } from 'next/font/google';
 import './globals.css';
+import LocaleSwitcher from './components/LocaleSwitcher';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
           </header>
           <main className="app-main">{children}</main>
           <footer className="app-footer">
+            <LocaleSwitcher />
             <p>Built for mobile-first reading. Updated from Strapi Cloud.</p>
           </footer>
         </div>

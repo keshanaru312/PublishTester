@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Article } from '../../strapi';
 
-export default function ArticleCard({ article }: { article: Article }) {
+export default function ArticleCard({ article, locale }: { article: Article; locale: 'en' | 'bm' }) {
   return (
     <article className="card">
       {article.featuredImage?.url && (
@@ -29,7 +29,7 @@ export default function ArticleCard({ article }: { article: Article }) {
         )}
         <span>{article.locale.toUpperCase()}</span>
       </div>
-      <Link className="read-link" href={`/articles/${article.slug}`}>
+      <Link className="read-link" href={`/${locale}/articles/${article.slug}`}>
         Read article →
       </Link>
     </article>

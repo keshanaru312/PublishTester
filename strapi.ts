@@ -337,9 +337,9 @@ export async function getArticleBySlug(slug: string, locale: 'en' | 'bm' = 'en')
 }
 
 /**
- * Get all article slugs for static generation
+ * Get all article slugs for static generation by locale
  */
-export async function getAllArticleSlugs(): Promise<{ slug: string; locale: string }[]> {
+export async function getAllArticleSlugs(locale: 'en' | 'bm' = 'en'): Promise<{ slug: string; locale: string }[]> {
   try {
     const allSlugs: { slug: string; locale: string }[] = [];
 
@@ -347,6 +347,10 @@ export async function getAllArticleSlugs(): Promise<{ slug: string; locale: stri
       'fields[0]': 'slug',
       'pagination[pageSize]': '100', // Get all articles
     });
+
+    // Map 'bm' to 'ms' for Strapi
+    const strapiLocale = locale === 'bm' ? 'ms' : locale;
+    params.append('locale', strapiLocale);
 
     const response = await fetch(`${STRAPI_URL}/api/articles?${params}`, {
       headers: getHeaders(),
@@ -357,7 +361,7 @@ export async function getAllArticleSlugs(): Promise<{ slug: string; locale: stri
       const data: StrapiResponse<StrapiArticle[]> = await response.json();
       allSlugs.push(...data.data.map((article) => ({
         slug: article.attributes?.slug || article.slug || '',
-        locale: 'en', // Default to 'en' since i18n is not enabled yet
+        locale,
       })));
     }
 
